@@ -1,7 +1,7 @@
 <?php
 /**
 ATD Installer.
-V1.0.0Beta.
+V1.0.0Beta.(20171111)
 需要php扩展fileinfo。
 **/
 $date=date("Y-m-d h:i:sa");
@@ -9,6 +9,7 @@ $verson=[
     'installer_verson'=>'1.0.0_Beta',
     'date'=>$date
 ];
+
 function MulitarraytoSingle($array){
     $temp=array();
     if(is_array($array)){
@@ -170,6 +171,8 @@ function note_files($dir_path){
 
         if(is_text($file)){
             $text=file_get_contents($file);
+            $file=mb_convert_encoding($file, 'UTF-8','GB2312,UTF-8');
+            $text=mb_convert_encoding($text, 'UTF-8','GB2312,UTF-8');
             $text=[
                 'path'=>$file,
                 'type'=>"text",
@@ -184,6 +187,8 @@ function note_files($dir_path){
                 echo("ERROR:Failed to copy the files to temp folder!");
                 exit();
             }
+            $file=mb_convert_encoding($file, 'UTF-8','GB2312,UTF-8');
+            $md5=mb_convert_encoding($md5, 'UTF-8','GB2312,UTF-8');
             $text=[
                 'path'=>$file,
                 'type'=>'other',
@@ -202,8 +207,11 @@ function note_files($dir_path){
 
 //创建临时文件夹
 if(!mkdir("./pack_temp/", 0777)){
-    echo("ERROR:Cannot create temp folder!");
-    exit();
+    del_DirAndFile("./pack_temp/");
+    if(!mkdir("./pack_temp/", 0777)){
+        echo("ERROR:Cannot create temp folder!");
+        exit();
+    }
 }
 if(!$file=fopen("./pack_temp/_install.json", "w+")){
     echo("ERROR:Cannot create main files folder!");
@@ -221,7 +229,9 @@ $folder_array=recurFolders($folder);
 
 $json['folders']=$folder_array;
 $json['files']=note_files($file_array);
-$json=json_encode($json);
+
+$json=json_encode($json);var_dump(json_last_error());
+//echo("json,$json,json");
 file_put_contents('./pack_temp/_install.json',$json);
 file_put_contents('./pack_temp/_verson.json',$verson);
 
