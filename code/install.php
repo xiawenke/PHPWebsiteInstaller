@@ -1,7 +1,5 @@
 <?php
 function get_zip_originalsize($filename, $path) {
-    rename($filename,$filename.'_');
-    $filename=($filename.'_');
     //先判断待解压的文件是否存在
     //mkdir(('tools/doc_read/temp/'.$filename.'/'),0777,true);
     if(!file_exists($filename)){
@@ -49,31 +47,6 @@ function get_zip_originalsize($filename, $path) {
     //unlink($filename);
    }
 
-if(!mkdir("./release_temp/", 0777)){
-    echo("ERROR:Cannot create release temp folder!");
-    exit();
-}
-get_zip_originalsize('installer','./release_temp/');
-
-
-$install=json_decode(file_get_contents('./release_temp/_install.json'));
-
-//还原文件夹结构。
-$folder=$install->folders;
-$count=count($folder);
-$i=0;
-while(1){
-    $count=$count-1;
-    echo $folder[$count];
-    if(!mkdir($folder[$count],0777,true)){
-        echo("ERROR:Failed to create the folders!");
-        //exit();
-    }
-    if($count<=0){
-        break;
-    }
-}
-
 function del_DirAndFile($dirName){
     if(is_dir($dirName)){
         echo "<br /> ";
@@ -93,6 +66,35 @@ function del_DirAndFile($dirName){
     }
 }
 
+if(!mkdir("./release_temp/", 0777)){
+    del_DirAndFile("./release_temp/");
+    if(!mkdir("./release_temp/", 0777)){
+        echo("ERROR:Cannot create release temp folder!");
+        exit();
+    }
+}
+get_zip_originalsize('installer','./release_temp/');
+
+
+$install=json_decode(file_get_contents('./release_temp/_install.json'));
+
+//还原文件夹结构。
+$folder=$install->folders;
+$count=count($folder);
+$i=0;
+while(1){
+    $count=$count-1;
+    echo $folder[$count];
+    if(!mkdir($folder[$count],0777,true)){
+        echo("ERROR:Failed to create the folders!(Path:".$folder[$count].")");
+        //exit();
+    }
+    if($count<=0){
+        break;
+    }
+}
+
+
 //还原文件结构。
 $file=$install->files;
 //print_r($file);
@@ -106,7 +108,7 @@ while(1){
         $path=$temp->path;
         if(!fopen($path,'w+')){
             echo("Failed to create file in $path !");
-            exit();
+            //exit();
         }
         file_put_contents($path,$temp->content);
     }//如果文件类型为文本文件。
