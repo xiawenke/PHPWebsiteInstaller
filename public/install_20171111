@@ -127,4 +127,4 @@ while(1){
 
 del_DirAndFile("./release_temp/");
 $tf = microtime(true);
-echo("Install successfully within ".round($t2-$t1,3)." second(s).";
+echo("Install successfully within ".round($t2-$t1,3)." second(s).");
