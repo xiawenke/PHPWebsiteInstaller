@@ -367,7 +367,7 @@ function validation()
 	var response = document.getElementById("response").value;
 	var text = document.getElementById("text").value;
     var postStr = "response="+response+"&text="+text;
-	ajax("index.php",postStr,function(result){
+	ajax("Pack_Guide.php",postStr,function(result){
 		document.getElementById("body").innerHTML=result;
 		});
 }
