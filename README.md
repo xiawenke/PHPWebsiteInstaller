@@ -1,6 +1,15 @@
-# PHPWebsiteInstaller
+# PHPWebsiteInstaller / 117sta11er
 Pack up all the code and files, then release in the server.<br>
-For how to use it please learn about it from the PackGuide(./Pack_Guide.php).<br>
+For how to use it please learn about it from the PackGuide(./Pack_Guide.php).<br>\
+<b>The most impaotant is that the code based on PHP and you must add the PHP extension called php_fileinfo, or you will fail to pack the installer.<br>
+  
+# Introduction
+The program pack all your code together into a installer.<br>
+It will put all the text file together into one file "instapp.json".<br>
+Then rename other binary files by their MD5 value, and mark their path before they be packed.<br>
+When release them, the program will follow the path then restore all the files, however it's a text or binary file.<br>
+In fact, the installer is a ZIP file, so that's why you need add php_fileiinfo!<br>
+ＦＯＲ　ＨＯＷ　ＴＯ　ＵＳＥ　ＩＴ，　ＰＬＥＡＳＥ　ＲＥＡＤ　ＢＥＬＯＷ，　ＡＮＤ  ＴＲＹ　ＴＯ　ＵＳＥ　ＴＨＥ　ＰａｃｋＧｕｉｄｅ！<br>
 
 # PackGuide
 That file is save in ./Pack_Guide.php<br>
